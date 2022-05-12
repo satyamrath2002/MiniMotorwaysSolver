@@ -94,3 +94,28 @@ Dijkstra's algorithm pages : 658-662,
 Breadth-First-Search: pages: 594-597,
 Depth-First-Search: pages: 603-606.
 <https://edutechlearners.com/download/Introduction_to_algorithms-3rd%20Edition.pdf>
+
+### *Assignment*
+
+In this week's assignment we will explore what every car does in the game to reach it's destination.
+
+More formally, let's say we are given a road layout, followed by a bunch of queries representing car journeys. For now we can assume only one car travels at a time. We need to understand the behaviour of the cars while choosing their paths.
+
+While traveling, a car might try to minimize the total distance travelled or the total time of the journey (Can there be some other parameter?). But since there is no other traffic, we can assume that the speed of the car will remain constant throughout the journey. This means minimizing the time is same as minimizing the distance!
+
+So to minimise the distance travelled, we go over 2 strategies for finding out the shortest possible path that a car can take from it's source to it's destination. Each strategy has 2 steps:
+
+1. Model the given road layout as a graph.
+2. For every journey, given by a source and a destination, get the shortest path.
+
+- **Strategy Uno**:
+
+    *Task 0*: For step 1, we simply assign a node to every cell on the road layout, which has at least 1 road connecting to it. Then we add a bidirectional edge for every unit road connecting two neighbouring cells.
+
+    *Task 1*: For step 2, we implement BFS algorithm to find the path with least number of edges from the given source to the given destination.
+
+- **Strategy Dos**:
+
+    *Task 2*: For step 1, we use DFS algorithm cleverly to reduce the number of nodes and edges in the graph. We do this by assigning nodes to every cell with exactly 1 OR at least 3 roads connecting to it. Now for all the direct paths(should not pass through any other node) connecting a pair of nodes(as defined before), we add an edge with weight equal to the length of the path. Note that here we will also have to store all the cells making up the direct path within the edge.
+
+    *Task 3*: For step 2, we have a weighted graph. Using this weighted graph we must implement the infamous Dijkstras algorithm for finding shortest path for graphs with edge weigths.
