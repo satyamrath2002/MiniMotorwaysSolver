@@ -1,4 +1,4 @@
-from game.utilities import *
+from utilities import *
 
 
 class MiniMotorways:
@@ -37,7 +37,7 @@ class MiniMotorways:
                 tuple((s[i], s[i+1]) for i in range(0, 4, 2)))
 
         self.road_network = self._make_graph()
-        print(self.road_network.adjDict)
+        # print(self.road_network.adjDict)
 
     def _make_graph(self):
         """Will create a graph modelling the current road network"""

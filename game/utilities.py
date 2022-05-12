@@ -1,4 +1,4 @@
-from game.graph import Graph
+from graph import Graph
 
 
 def simple_graph_maker(dim: tuple[int, int],
@@ -19,8 +19,8 @@ def simple_graph_maker(dim: tuple[int, int],
 
     # adding edges between each pair of nodes connected by a road
     for node1, node2 in roads:
-        g.addEdge(node1, node2, 1)
-        g.addEdge(node2, node1, 1)
+        g.addEdge(node1, node2, [node2])
+        g.addEdge(node2, node1, [node1])
     return g
 
 
