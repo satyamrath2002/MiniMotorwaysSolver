@@ -16,7 +16,7 @@ class Graph():
             print(
                 f"Node {node[0]},{node[1]} is not inside the graph boundaries")
 
-    def addEdge(self, src: tuple[int, int], tgt: tuple[int, int], weight: int):
+    def addEdge(self, src: tuple[int, int], tgt: tuple[int, int],  path: list[tuple[int,int]]):
         """Adding edges with weight"""
         pos1 = src[0]+src[1]*self.cols
         pos2 = tgt[0]+tgt[1]*self.cols
@@ -27,8 +27,11 @@ class Graph():
         if pos2 not in self.adjDict.keys():
             print('Target not defined as a node')
             allgood = False
+        """Weight = len(path)"""
+        """src->a->b->c->tgt"""
+        """path=[a,b,c,tgt]"""
         if allgood:
-            self.adjDict[pos1][pos2] = weight
+            self.adjDict[pos1][pos2] = path
 
     def getAdjDict(self, node: tuple[int, int]):
         pos = node[0]+node[1]*self.cols
@@ -54,13 +57,14 @@ class Graph():
 """4 5  6  7"""
 """8 9 10 11"""
 
+
 if __name__ == '__main__':
     g = Graph(3, 3)
     g.addNode((1, 1))
     g.addNode((2, 2))
     g.addNode((3, 3))
-    g.addEdge((1, 1), (2, 2), 2)
-    g.addEdge((1, 1), (0, 0), 10)
+    g.addEdge((1, 1), (2, 2), [(2, 2)])
+    g.addEdge((1, 1), (0, 0), [(0, 0)])
     a = g.getAdjDict((1, 2))
     print(a)
     b = g.getNodes()
