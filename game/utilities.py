@@ -1,4 +1,4 @@
-from game.graph import Graph
+from graph import Graph
 
 
 def simple_graph_maker(dim: tuple[int, int],
