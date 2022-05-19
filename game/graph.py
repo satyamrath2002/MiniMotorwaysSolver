@@ -16,7 +16,7 @@ class Graph():
             print(
                 f"Node {node[0]},{node[1]} is not inside the graph boundaries")
 
-    def addEdge(self, src: tuple[int, int], tgt: tuple[int, int],  path: list[tuple[int,int]]):
+    def addEdge(self, src: tuple[int, int], tgt: tuple[int, int],  path: list[tuple[int, int]]):
         """Adding edges with weight"""
         pos1 = src[0]+src[1]*self.cols
         pos2 = tgt[0]+tgt[1]*self.cols
@@ -33,12 +33,16 @@ class Graph():
         if allgood:
             self.adjDict[pos1][pos2] = path
 
-    def getAdjDict(self, node: tuple[int, int]):
+    def _getAdjDict(self, node: tuple[int, int]):
         pos = node[0]+node[1]*self.cols
         if pos in self.adjDict.keys():
             return self.adjDict[pos]
         else:
             return dict()
+
+    def getAdjList(self, node: tuple[int, int]):
+        adj_dict = self._getAdjDict(node=node)
+        return [((pos % self.cols, pos//self.cols), val) for pos, val in adj_dict.items()]
 
     def getNodes(self):
         """Returns a list of Nodes with their coordinates as tuples"""
@@ -65,7 +69,7 @@ if __name__ == '__main__':
     g.addNode((3, 3))
     g.addEdge((1, 1), (2, 2), [(2, 2)])
     g.addEdge((1, 1), (0, 0), [(0, 0)])
-    a = g.getAdjDict((1, 2))
+    a = g.getAdjList((1, 1))
     print(a)
     b = g.getNodes()
     print(b)
