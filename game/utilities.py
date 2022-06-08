@@ -38,42 +38,63 @@ def dfs_graph_maker(dim: tuple[int, int],
     #implement dfs in g_simple and analyse each node
     nodes = g_simple.getNodes() 
     for node in nodes:
-        if len(g_simple._getAdjDict(node)) != 2:
+        if len(g_simple.getAdjList(node)) != 2:
             start = node
             break
 
-    pos_start = start[0] + cols*start[1]
     stack = queue.LifoQueue(maxsize = -1)
-    visited = []
-    path = []  #path is the list of nodes traversed      
-    stack.put((pos_start, path))
-    visited.append(pos_start)
+    visited = set()
+    #path is the list of nodes traversed      
+    stack.put((start,[],0))
+    
     ######Check if the starting node has 2 nodes or not. If it has 2 nodes, then in g_dfs, 
     # add the two neighbors as an edge along with the path else simply add the nodes and corresponding edges
     while not stack.empty():
         
-        vertex, path = stack.get()
+        vertex, path, index = stack.get()
 
-        if len(g_simple._getAdjDict((vertex%cols, vertex//cols))) == 2:
-            path.append((vertex%cols, vertex//cols))
+        print(vertex,index)
 
-        elif len(g_simple._getAdjDict((vertex%cols, vertex//cols))) != 2:
-            g_dfs.addNode((vertex%cols, vertex//cols))
+        adj_list = g_simple.getAdjList(vertex)
 
+        if vertex not in visited:
+
+            if len(adj_list) != 2:
+                g_dfs.addNode(vertex)
+    
+        if len(adj_list) != 2:
             if len(path) != 0:
-                g_dfs.addEdge((vertex%cols, vertex//cols),path[0],path)
-                path_reverse = path[::-1]
-                g_dfs.addEdge(path[0],(vertex%cols, vertex//cols), path_reverse)
+                g_dfs.addEdge(path[0],vertex,path[1:]+[vertex])
+            new_path = [vertex]    
+        else:
+            new_path = path + [vertex]
+
+        
+        visited.add(vertex)
+
+        
+        if index < len(adj_list) and len(path) != 0 and path[-1] == adj_list[index][0]:
+            index = index+1
+ 
+        if index< len(adj_list) and adj_list[index][0] not in visited:
+
             
-            path = [(vertex%cols, vertex//cols)]
+            neighbor = adj_list[index][0]
 
+           
+                
+            if neighbor:
+                stack.put((vertex, path, index+1))
+                stack.put((neighbor,new_path,0))
+                continue
+        
+        if not stack.empty():
+            parent, parent_path, parent_index = stack.get()
+            stack.put((parent,new_path,parent_index))
 
-        for neighbor in g_simple._getAdjDict((vertex%cols,vertex//cols)):#neighbor is position of nodes adjacent to "vertex"
-            if neighbor not in visited:
-                visited.append(neighbor)
-                stack.put((neighbor, path))
 
     return g_dfs
+
 
 
 
