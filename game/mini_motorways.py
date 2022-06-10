@@ -1,3 +1,5 @@
+from pprint import pprint
+
 from utilities import *
 
 
@@ -37,7 +39,9 @@ class MiniMotorways:
                 tuple((s[i], s[i+1]) for i in range(0, 4, 2)))
 
         self.road_network = self._make_graph()
-        # print(self.road_network.adjDict)
+        # for node in self.road_network.getNodes():
+        #     print(node, end=" -> ")
+        #     pprint(self.road_network.getAdjList(node))
 
     def _make_graph(self):
         """Will create a graph modelling the current road network"""

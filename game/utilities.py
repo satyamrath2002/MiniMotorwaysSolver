@@ -1,3 +1,5 @@
+import queue
+
 from graph import Graph
 
 
@@ -33,69 +35,70 @@ def dfs_graph_maker(dim: tuple[int, int],
                     roads: list[tuple[tuple[int, int], tuple[int, int]]]
                     ) -> Graph:
     cols = dim[1]
-    g_simple =  simple_graph_maker(dim,roads)
+    def encode(co_ord):
+        return co_ord[0]*cols + co_ord[1]
+
+    g_simple = simple_graph_maker(dim, roads)
     g_dfs = Graph(rows=dim[0], cols=dim[1])
-    #implement dfs in g_simple and analyse each node
-    nodes = g_simple.getNodes() 
+    # implement dfs in g_simple and analyse each node
+    nodes = g_simple.getNodes()
     for node in nodes:
         if len(g_simple.getAdjList(node)) != 2:
             start = node
             break
 
-    stack = queue.LifoQueue(maxsize = -1)
+    stack = queue.LifoQueue(maxsize=-1)
     visited = set()
-    #path is the list of nodes traversed      
-    stack.put((start,[],0))
-    
-    ######Check if the starting node has 2 nodes or not. If it has 2 nodes, then in g_dfs, 
+    parents = {y*cols+x: (None, None)
+               for x in range(dim[1]) for y in range(dim[0])}
+    # path is the list of nodes traversed
+    stack.put((start, [], 0))
+
+    # Check if the starting node has 2 nodes or not. If it has 2 nodes, then in g_dfs,
     # add the two neighbors as an edge along with the path else simply add the nodes and corresponding edges
     while not stack.empty():
-        
         vertex, path, index = stack.get()
-
-        print(vertex,index)
-
         adj_list = g_simple.getAdjList(vertex)
 
         if vertex not in visited:
-
             if len(adj_list) != 2:
                 g_dfs.addNode(vertex)
-    
+
         if len(adj_list) != 2:
-            if len(path) != 0:
-                g_dfs.addEdge(path[0],vertex,path[1:]+[vertex])
-            new_path = [vertex]    
+            if len(path) != 0 and path[0] != vertex:
+                g_dfs.addEdge(path[0], vertex, path[1:]+[vertex])
+            new_path = [vertex]
         else:
             new_path = path + [vertex]
 
-        
-        visited.add(vertex)
+        if vertex not in visited:
+            visited.add(vertex)
+            if len(path) != 0:
+                parents[encode(vertex)] = path[-1]
+            else:
+                parents[encode(vertex)] = (None, None)
 
-        
-        if index < len(adj_list) and len(path) != 0 and path[-1] == adj_list[index][0]:
-            index = index+1
- 
-        if index< len(adj_list) and adj_list[index][0] not in visited:
+        if len(path) == 0 or (
+                parents[encode(path[-1])] == vertex or
+                parents[encode(vertex)] == path[-1]):
+            while index < len(adj_list) and (
+                adj_list[index][0] == parents[encode(vertex)] or (
+                    adj_list[index][0] in visited and
+                    adj_list[index][0] not in g_dfs.getNodes())):
+                index = index+1
 
-            
-            neighbor = adj_list[index][0]
+            if index < len(adj_list):
+                neighbor = adj_list[index][0]
+                if neighbor:
+                    stack.put((vertex, path, index+1))
+                    stack.put((neighbor, new_path, 0))
+                    continue
 
-           
-                
-            if neighbor:
-                stack.put((vertex, path, index+1))
-                stack.put((neighbor,new_path,0))
-                continue
-        
         if not stack.empty():
             parent, parent_path, parent_index = stack.get()
-            stack.put((parent,new_path,parent_index))
-
+            stack.put((parent, new_path, parent_index))
 
     return g_dfs
-
-
 
 
 def dijkstras_path_finder(G: Graph, src: tuple[int, int], trg: tuple[int, int]
