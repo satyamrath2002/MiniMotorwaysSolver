@@ -122,6 +122,8 @@ So to minimise the distance travelled, we go over 2 strategies for finding out t
 
 While implementing BFS, DFS and Dijkstra's algorithms you would need queue, stack and heap data structures respectively. To get these data structures in python, from the module queue you can use Queue as a queue, LifoQueue as a stack and PriorityQueue as a heap. Documentation for this module is at <https://docs.python.org/3/library/queue.html>
 
+---
+
 ## **Week 3: Traffic Sciences**
 
 ### *Resources*
@@ -134,6 +136,17 @@ But in the game there can also be diagonal roads. So every cell has 8 neighbours
 2. *Diamond cells*: These cells are present at the corners of the old square cells. They are basically tilted squares that have 4 octagon neighbours.
 
 This model is just an idea that I had while thinking about an 8-neighbourhood system. If you can think of a cleverer way to model the diagonal roads in the game, we would be happy to #discuss.
+
+**Network Flow**: These are two videos to brief through what does Flow mean in graphs and algorithm for Maximizing the flow in a graph :
+
+- Ford Fulkerson  : <https://www.youtube.com/watch?v=LdOnanfc5TM>
+- Edmonds-Karp : <https://www.youtube.com/watch?v=RppuJYwlcI8>
+
+You should also go through the texts given in this book on pages :
+709-712  Flow Network
+714-717 : Ford Fulkerson including residual networks
+719 : Augmenting Paths
+724-727 : Ford Fulkerson and Edmonds-Karp Algorithm
 
 ### *Assignment*
 
@@ -177,6 +190,8 @@ For each of the above structure we must do the following tasks,
 7. Lastly, make sure that for any set Si, all the sets of edges modelling different paths in Si should be *disjoint*.
 
 If there is any other road structure you can see in the game, go ahead and solve for it too.
+
+---
 
 ## **Week 4: Intro to ML**
 
@@ -247,7 +262,7 @@ Woohoo, ML is starting finally. So what is ML? Well, it stands for *Machine Lear
 
 6. When implementing Linear Regression a common issue is [over-fitting](https://en.wikipedia.org/wiki/Overfitting). To avoid this a regularisation term is added to the Squared Error function which is basically the sum of squares of all the parameters. This can also be modelled using a prior on the parameters [a b]^T from the 4th task. Try to get the closed-form estimate for mu and capital Sigma if possible. This is optional.
 
-## *Assignment*
+### *Assignment*
 
 - Attempt all the calculations given in the resources.
 - Formulate the problem of playing the Mini Motorways game as an ML problem. Think along the following lines:-
@@ -257,3 +272,5 @@ Woohoo, ML is starting finally. So what is ML? Well, it stands for *Machine Lear
     3. What will be the **objective function** that needs to be optimised? Try to derive this rather than just guessing.
     4. How will you **optimise** the objective function? If it is possible to get a mathematical solution then solve it.
     5. How will this model be useful for **predicting** the most optimal moves?
+
+---
