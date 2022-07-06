@@ -2,13 +2,17 @@ from typing import Any, Dict, Hashable
 
 
 class Node:
-    def __init__(self, label: Hashable) -> None:
-        self.label = label
-        self.children: Dict[Hashable, Any] = dict()
-        self.parents: Dict[Hashable, Any] = dict()
+    """
+    Class for nodes to be used in a directed graph.
+    """
 
-    # def __hash__(self) -> int:
-    #     return self.label.__hash__()
+    def __init__(self, label: Hashable) -> None:
+        self.label = label  # Unique hashable label for each node
+
+        # Nodes connected by out-going edges
+        self.children: Dict[Hashable, Any] = dict()
+        # Nodes connected by in-coming edges
+        self.parents: Dict[Hashable, Any] = dict()
 
     def add_child(self, c_label: Hashable, weight) -> None:
         self.children[c_label] = weight
@@ -24,7 +28,13 @@ class Node:
 
 
 class Graph:
+    """
+    Class for a directed graph.
+    """
     def __init__(self) -> None:
+        """
+        Nodes stored in a dict as per Adjacency List format.
+        """
         self.nodes: Dict[Hashable, Node] = dict()
 
     def add_node(self, label: Hashable) -> None:
